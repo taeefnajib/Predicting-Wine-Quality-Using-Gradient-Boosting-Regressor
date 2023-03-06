@@ -3,6 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import GradientBoostingRegressor
 from dataclasses_json import dataclass_json
 from dataclasses import dataclass
+import pickle
 
 
 @dataclass_json
@@ -36,7 +37,9 @@ def split_dataset(df, test_size, random_state):
 # Building and fitting the model
 def train_model(X_train, y_train, n_estimators, learning_rate, max_depth, random_state, min_samples_split, loss):
     model = GradientBoostingRegressor(n_estimators = n_estimators, learning_rate= learning_rate, max_depth= max_depth, random_state= random_state, min_samples_split= min_samples_split, loss= loss)
-    return model.fit(X_train, y_train)
+    model.fit(X_train, y_train)
+    pickle.dump(model, open("model.pkl", 'wb'))
+    return model
 
 
 # Running the workflow
